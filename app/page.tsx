@@ -5,7 +5,7 @@ import Image from 'next/image';
 import '../src/styles/Navigation.css';
 import '../src/styles/Feed.css';
 
-type BlogPost = {
+export type BlogPost = {
   path: string;
   image: string;
   title: string;
