@@ -1,0 +1,59 @@
+[
+  {
+    "path": "the_last_title",
+    "image": "the_last_title.png",
+    "title": "The Last Title",
+    "author": "Writer 3",
+    "date": "2021-01-19",
+    "tags": ["Topic 6", "Topic 1", "Topic 3"]
+  },
+  {
+    "path": "this_is_a_placeholder_title",
+    "image": "this_is_a_placeholder_title.png",
+    "title": "This is a Placeholder Title",
+    "author": "Writer 7",
+    "date": "2023-06-27",
+    "tags": ["Topic 2", "Topic 6"]
+  },
+  {
+    "path": "yet_another_placeholder",
+    "image": "yet_another_placeholder.png",
+    "title": "Yet Another Placeholder",
+    "author": "Writer 3",
+    "date": "2022-11-08",
+    "tags": ["Topic 2", "Topic 3", "Topic 7"]
+  },
+  {
+    "path": "generic_chain_of_characters",
+    "image": "generic_chain_of_characters.png",
+    "title": "Generic Chain of Characters",
+    "author": "Writer 8",
+    "date": "2024-04-01",
+    "tags": ["Topic 8", "Topic 1", "Topic 7", "Topic 5"]
+  },
+  {
+    "path": "this_is_the_title",
+    "image": "this_is_the_title.png",
+    "title": "This is the Title",
+    "author": "Writer 1",
+    "date": "2019-06-01",
+    "tags": ["Topic 5"]
+  },
+  {
+    "path": "some_random_title",
+    "image": "some_random_title.png",
+    "title": "Some Random Title",
+    "author": "Writer 2",
+    "date": "2020-10-22",
+    "tags": ["Topic 2", "Topic 8", "Topic 6"]
+  },
+  {
+    "path": "a_random_blog",
+    "image": "a_random_blog.png",
+    "title": "A Random Blog",
+    "author": "Writer 3",
+    "date": "2022-11-30",
+    "tags": ["Topic 8", "Topic 2"],
+    "hidden": true
+  }
+]

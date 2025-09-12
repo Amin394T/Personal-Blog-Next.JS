@@ -1,0 +1,66 @@
+.feed {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 60px auto 30px;
+  padding: 0 20px;
+}
+
+.feed-blog {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #c2cbd2;
+  cursor: pointer;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 300px;
+}
+
+.feed-blog > img {
+  width: 300px;
+  aspect-ratio: 3/2;
+  border-radius: 5px 5px 0 0;
+}
+
+.feed-blog > div {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 5px 5px;
+  text-align: center;
+}
+
+.feed-blog > span {
+  background-color: #003135;
+  padding: 0 5px;
+  border-radius: 5px 0 0 5px;
+  color: #f5efe6;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  font-size: 12px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@media screen and (max-width: 1080px) {
+  .feed-blog,
+  .feed-blog > img {
+    width: 40vw;
+    max-width: 350px;
+    min-width: 240px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .feed {
+    margin-top: 40px;
+  }
+
+  .feed-blog,
+  .feed-blog > img {
+    width: 75vw;
+    max-width: 350px;
+    min-width: 300px;
+  }
+}
