@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import "./global.css";
 import Link from "next/link";
-import SearchBar from "./search-bar";
-import path from "node:path";
+import BlogSearch from "./_library/blog-search";
+import "./global.css";
 
-
-const publicDir = path.join(process.cwd(), 'public');
 
 export const metadata: Metadata = {
   title: "Personal Blog",
@@ -25,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="navigation">
           <Link href="/"> <img className="navigation-logo" src="/images/_logo.png" alt="logo" /> </Link>
-          <SearchBar />
+          <BlogSearch />
         </div>
 
         {children}

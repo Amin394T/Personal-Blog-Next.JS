@@ -62,6 +62,5 @@ async function Article({ params }: Props) {
     </div>
   );
 }
-// author and tag search
 
 export default Article;
