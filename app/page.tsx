@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import Image from 'next/image';
-
 import '../private/styles/Feed.css';
+
 
 export type BlogPost = {
   path: string;
@@ -22,12 +22,12 @@ type Welcome = {
   line_3: string;
 };
 
-function getQueryParam(param: string): string {
-  if (typeof window === 'undefined') return '';
-  return new URLSearchParams(window.location.search).get(param) ?? '';
-}
+type Props = {
+  searchParams?: { search?: string };
+};
 
-export default async function Home({ searchParams }: { searchParams?: { search?: string } }) {
+
+export default async function Home({ searchParams }: Props) {
   const markdownPath = path.join(process.cwd(), 'private', 'markdown');
   const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(markdownPath + '/_files_list.json', 'utf-8'));
   const welcome: Welcome = JSON.parse(fs.readFileSync(markdownPath + '/_welcome.json', 'utf-8'));
