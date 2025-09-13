@@ -8,8 +8,8 @@ type Props = {
   params: Promise<{ blog: string }>;
 }
 
-const publicDir = path.join(process.cwd(), 'public');
-const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(publicDir + '/markdown/_files_list.json', 'utf-8'));
+const markdownDir = path.join(process.cwd(), 'private', 'markdown');
+const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(markdownDir + '/_files_list.json', 'utf-8'));
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { blog } = await params;
@@ -37,11 +37,11 @@ async function Article({ params }: Props) {
     if (!blogData)
       return (<div className="error article"> <div>&#x2716;</div> Oops! Something went wrong. </div>);
 
-    const data = fs.readFileSync(publicDir + `/markdown/${blogData.path}.md`, 'utf-8');
+    const data = fs.readFileSync(markdownDir + `/${blogData.path}.md`, 'utf-8');
 
     return (
       <div className="article">      
-        <div className="article-image" style={{backgroundImage: `linear-gradient(rgba(245, 239, 230, 0.2), rgba(245, 239, 230, 1)), url(${publicDir}/images/${blogData.image})`}}>
+        <div className="article-image" style={{backgroundImage: `linear-gradient(rgba(245, 239, 230, 0.2), rgba(245, 239, 230, 1)), url(/images/${blogData.image})`}}>
           <h1>{blogData.title}</h1>
   
           <div className="article-info" >  
