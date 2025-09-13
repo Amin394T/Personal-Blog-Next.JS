@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import Image from 'next/image';
 import '../private/styles/Feed.css';
+import Link from 'next/link';
 
 
 export type BlogPost = {
@@ -44,8 +44,7 @@ export default async function Home({ searchParams }: Props) {
   filteredBlogs = filteredBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <main className="max-w-3xl mx-auto py-12 px-4">
-
+    <>
       {!searchWord && (
         <div className="article">
           <h1>{welcome.heading}</h1>
@@ -57,14 +56,14 @@ export default async function Home({ searchParams }: Props) {
 
       <div className="feed">
         {filteredBlogs.map(blog => (
-          <a href={`/blog/${blog.path}`} key={blog.path} className="feed-blog" style={{display: 'block', marginBottom: 24, cursor: 'pointer'}}>
+          <Link href={`/blog/${blog.path}`} key={blog.path} className="feed-blog">
             <span>{blog.tags[0]}</span>
-            <Image src={`/images/${blog.image || '_placeholder.png'}`} alt={blog.title} width={120} height={80} style={{borderRadius: 8}} />
+            <img src={`/images/${blog.image || '_placeholder.png'}`} alt={blog.title} />
             <div>{blog.title}</div>
-          </a>
+          </Link>
         ))}
       </div>
-    </main>
+    </>
   );
 }
 
