@@ -1,18 +1,26 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { Metadata } from "next";
-import Markdown from 'react-markdown';
-import { BlogPost } from '../../page'; // move to a types file
-import '../../../private/styles/Article.css';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Markdown from 'react-markdown';
+import '@/private/styles/Article.css';
+import blogsList from '@/private/markdown/_files_list.json';
 
+
+type BlogPost = {
+  path: string;
+  image: string;
+  title: string;
+  author: string;
+  date: string;
+  tags: string[];
+  hidden?: boolean;
+};
 
 type Props = {
   params: Promise<{ blog: string }>;
 }
-
-const markdownPath = path.join(process.cwd(), 'private', 'markdown');
-const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(markdownPath + '/_files_list.json', 'utf-8'));
 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -40,7 +48,10 @@ async function Article({ params }: Props) {
 
   if (!blogData)
     return (<div className="error article"> <div>&#x2716;</div> Oops! Something went wrong. </div>);
+    
+  const markdownPath = path.join(process.cwd(), 'private', 'markdown');
   const data = fs.readFileSync(markdownPath + `/${blogData.path}.md`, 'utf-8');
+  // improve by using importAll
 
   return (
     <div className="article">      

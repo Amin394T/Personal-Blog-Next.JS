@@ -1,25 +1,30 @@
-'use client';
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+export default function BlogSearch() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("search") ?? '');
+  
+  useEffect(() => {
+    setQuery(searchParams.get("search") ?? '');
+  }, [searchParams]);
 
-export default function BlogSearch({ searchParams }: { searchParams?: { search?: string } }) {
-    const router = useRouter();
-    const [searchWord, setSearchWord] = useState(searchParams?.search ?? '');
+  const handleSearch = (query: string) => {
+    setQuery(query);
+    
+    searchParams.get("search")
+      ? router.replace(`/?search=${query}`)
+      : router.push(`/?search=${query}`);
+  };
 
-    let handleSearch = (query: string) => {
-        query = query.toLowerCase();
-        setSearchWord(query);
-        //startTransition(() => setSearchWord(query));
-        router.replace(`/?search=${query}`);
-    };
-
-    return (
-        <input
-            className="navigation-search" value={searchWord} placeholder="🔍  Search ..."
-            onChange={(event) => handleSearch(event.target.value)}
-        />
-    );
+  return (
+    <input
+      className="navigation-search"
+      value={query}
+      placeholder="🔍 Search ..."
+      onChange={(event) => handleSearch(event.target.value)}
+    />
+  );
 }
-
-// clicking logo or article doesn't clear search bar

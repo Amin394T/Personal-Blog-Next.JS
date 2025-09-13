@@ -1,6 +1,6 @@
 import Link from "next/link";
-import '../../private/styles/Feed.css';
-import blogsList from '../../private/markdown/_files_list.json';
+import '@/private/styles/Feed.css';
+import blogsList from '@/private/markdown/_files_list.json';
 
 
 export type BlogPost = {
@@ -14,17 +14,17 @@ export type BlogPost = {
 };
 
 
-export default function BlogList({ searchParams }: { searchParams?: { search?: string } }) {
-    const searchWord = searchParams?.search?.toLowerCase() ?? '';
-  let filteredBlogs = blogsList.filter(blog => !blog.hidden);
-  if (searchWord) {
-    filteredBlogs = filteredBlogs.filter(blog =>
-      blog.tags.some(tag => tag.toLowerCase().includes(searchWord)) ||
-      blog.title.toLowerCase().includes(searchWord) ||
-      blog.author.toLowerCase() === searchWord
-    );
-  }
-  filteredBlogs = filteredBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+export default async function BlogList({ query }: { query: string | undefined }) {
+    query = query?.toLowerCase() ?? '';
+    let filteredBlogs = blogsList.filter(blog => !blog.hidden);
+    if (query) {
+        filteredBlogs = filteredBlogs.filter(blog =>
+            blog.tags.some(tag => tag.toLowerCase().includes(query)) ||
+            blog.title.toLowerCase().includes(query) ||
+            blog.author.toLowerCase().includes(query)
+        );
+    }
+    filteredBlogs = filteredBlogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 
     return (
