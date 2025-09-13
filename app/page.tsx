@@ -2,8 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import Image from 'next/image';
 
-import '../src/styles/Navigation.css';
-import '../src/styles/Feed.css';
+import '../private/styles/Feed.css';
 
 export type BlogPost = {
   path: string;
@@ -29,10 +28,9 @@ function getQueryParam(param: string): string {
 }
 
 export default async function Home({ searchParams }: { searchParams?: { search?: string } }) {
-  const fileListPath = path.join(process.cwd(), 'public/markdown/_files_list.json');
-  const welcomePath = path.join(process.cwd(), 'public/markdown/_welcome.json');
-  const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(fileListPath, 'utf-8'));
-  const welcome: Welcome = JSON.parse(fs.readFileSync(welcomePath, 'utf-8'));
+  const markdownPath = path.join(process.cwd(), 'private', 'markdown');
+  const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(markdownPath + '/_files_list.json', 'utf-8'));
+  const welcome: Welcome = JSON.parse(fs.readFileSync(markdownPath + '/_welcome.json', 'utf-8'));
 
   const searchWord = searchParams?.search?.toLowerCase() ?? '';
   let filteredBlogs = blogsList.filter(blog => !blog.hidden);

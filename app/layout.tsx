@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./global.css";
-import "../src/styles/Navigation.css"
 import Link from "next/link";
 import SearchBar from "./search-bar";
 import path from "node:path";
