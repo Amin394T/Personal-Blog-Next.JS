@@ -22,4 +22,4 @@ export default function BlogSearch({ searchParams }: { searchParams?: { search?:
     );
 }
 
-// clicking logo doesn't clear search bar
+// clicking logo or article doesn't clear search bar

@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import '../private/styles/Article.css';
 import BlogList from './_library/blog-list';
+import '../private/styles/Article.css';
+import welcome from '../private/markdown/_welcome.json';
+
 
 type Welcome = {
   name: string;
@@ -17,8 +17,6 @@ type Props = {
 
 
 export default async function Home({ searchParams }: Props) {
-  const markdownPath = path.join(process.cwd(), 'private', 'markdown');
-  const welcome: Welcome = JSON.parse(fs.readFileSync(markdownPath + '/_welcome.json', 'utf-8'));
 
   return (
     <>
@@ -31,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
         </div>
       )}
 
-      <BlogList searchParams={searchParams} />
+      <BlogList {...{searchParams}} />
     </>
   );
 }

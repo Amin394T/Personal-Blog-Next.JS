@@ -1,7 +1,7 @@
-import path from "path";
-import fs from "fs";
 import Link from "next/link";
 import '../../private/styles/Feed.css';
+import blogsList from '../../private/markdown/_files_list.json';
+
 
 export type BlogPost = {
   path: string;
@@ -13,10 +13,8 @@ export type BlogPost = {
   hidden?: boolean;
 };
 
-export default function BlogList({ searchParams }: { searchParams?: { search?: string } }) {
-    const markdownPath = path.join(process.cwd(), 'private', 'markdown');
-      const blogsList: BlogPost[] = JSON.parse(fs.readFileSync(markdownPath + '/_files_list.json', 'utf-8'));
 
+export default function BlogList({ searchParams }: { searchParams?: { search?: string } }) {
     const searchWord = searchParams?.search?.toLowerCase() ?? '';
   let filteredBlogs = blogsList.filter(blog => !blog.hidden);
   if (searchWord) {
