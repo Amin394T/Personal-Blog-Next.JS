@@ -73,7 +73,7 @@ export default async function Article({ params }: Props) {
         </span>
       </div>
     
-      {/* <CommentList {...{ parent: blogData.path }} /> */}
+      <CommentList {...{ parent: blogData.path }} />
     </>
   );
 }

@@ -16,27 +16,33 @@ export type Comment = {
 const COMMENT_API_URL = 'http://localhost:3001/api';
 
 
-
-export default async function CommentList({ parent }: { parent: string | number }) {
-  const [comments, setComments] = useState(new Array<Comment>());
-  const [showEditor, setShowEditor] = useState(0);
-  const [content, setContent] = useState('');
+export default function CommentList({ parent }: { parent: string | number }) {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [showEditor, setShowEditor] = useState<number>(0);
+  const [content, setContent] = useState("");
   const params = useParams();
-  const fetchData = await (await fetch(`${COMMENT_API_URL}/messages/${parent}`)).json();  
-  // read API URL from .env
 
   const isReply = params?.blog != parent;
-  
+
   useEffect(() => {
-    if (fetchData)
-      setComments(fetchData);
-  }, [fetchData]);
+    let ignore = false;
 
-  // if (fetchStatus == "loading")
-  //   return (<div className="spinner comments"> <div></div> </div>);
-  // if (fetchStatus == "error")
-  //   return null;
+    const loadComments = async () => {
+      try {
+        const res = await fetch(`${COMMENT_API_URL}/messages/${parent}`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        if (!ignore) setComments(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    loadComments();
+    return () => {
+      ignore = true;
+    };
+  }, [parent]);
 
   let handleModify = (comment: Comment) => {
     setContent(comment.content);
@@ -65,10 +71,9 @@ export default async function CommentList({ parent }: { parent: string | number 
       alert(response.message);
   };
 
-
   return (
     <div className="comments">
-      { !isReply && <CommentEditor {...{id: parent, content: "", setComments, setShowEditor, mode: "create"}} /> }
+      { !isReply && <CommentEditor {...{id: parent, setComments, setShowEditor, mode: "create"}} /> }
       {
         comments.map((comment) =>
           <div className="comments-list" key={comment.id} title={new Date(comment.date).toLocaleString().concat(comment.status == "edited" ? " (edited)" : "")}>
@@ -93,7 +98,7 @@ export default async function CommentList({ parent }: { parent: string | number 
       }
       {
         showEditor != 0
-          ? <CommentEditor {...{id: parent, content: "", setComments, setShowEditor, mode: "create"}} /> 
+          ? <CommentEditor {...{id: parent, setComments, setShowEditor, mode: "create"}} /> 
           : isReply && <button onClick={() => setShowEditor(-1)}> Reply </button>
       }
     </div>

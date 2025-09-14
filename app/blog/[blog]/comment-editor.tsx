@@ -6,19 +6,17 @@ import "@/private/styles/Editor.css";
 
 type Props = {
   id: number | string;
-  content: string;
+  content?: string;
   setComments: any; //(comments: Comment[] | ((comment: any) => Comment[])) => void;
   setShowEditor: any; //(id: number) => void;
   mode: "create" | "update";
 };
 
-const COMMENT_API_URL = 'http://localhost:3001/api';
-
 
 export default function CommentEditor({ id, content, setComments, setShowEditor, mode }: Props) {
-  const editorRef = useRef(new HTMLTextAreaElement());
-  const usernameRef = useRef(new HTMLInputElement());
-  const passwordRef = useRef(new HTMLInputElement());
+  const editorRef: any = useRef(null);
+  const usernameRef: any = useRef(null);
+  const passwordRef: any = useRef(null);
   const [processing, setProcessing] = useState(false);
   const params = useParams();
 
@@ -46,7 +44,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
       return;
     }
 
-    const request = await fetch(`${COMMENT_API_URL}/users/register`, {
+    const request = await fetch(`${process.env.COMMENT_API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
@@ -73,7 +71,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     if (mode == "create") {
 
-      const request = await fetch(`${COMMENT_API_URL}/messages`, {
+      const request = await fetch(`${process.env.COMMENT_API_URL}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -101,7 +99,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     else if (mode == "update") {
 
-      const request = await fetch(`${COMMENT_API_URL}/messages/${id}`, {
+      const request = await fetch(`${process.env.COMMENT_API_URL}/messages/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
