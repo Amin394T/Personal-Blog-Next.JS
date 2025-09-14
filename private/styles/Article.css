@@ -67,13 +67,12 @@
   gap: 10px;
 }
 
-.article-tags span {
+.article-tags a {
   background-color: #003135;
   padding: 1px 5px;
   border-radius: 5px;
   color: #f5efe6;
   font-size: 11px;
-  cursor: pointer;
   font-weight: normal;
 }
 

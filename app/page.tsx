@@ -1,8 +1,7 @@
-import BlogList from './_library/blog-list';
-import '@/private/styles/Article.css';
-import welcome from '@/private/markdown/_welcome.json';
 import { Metadata } from 'next';
-
+import BlogList from './_library/blog-list';
+import home from '@/private/markdown/_home_page.json';
+import '@/private/styles/Article.css';
 
 type Props = {
   searchParams?: Promise<{ search?: string }>;
@@ -11,10 +10,9 @@ type Props = {
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { search } = await searchParams ?? {};
+
   if (!search) return {};
-  return {
-    title: `Searching : ${search}`
-  };
+  return { title: `Searching : ${search}` };
 }
 
 
@@ -25,10 +23,10 @@ export default async function Home({ searchParams }: Props) {
     <>
       {!search && (
         <div className="article">
-          <h1>{welcome.heading}</h1>
-          <p>{welcome.line_1}</p>
-          <p>{welcome.line_2}</p>
-          <p>{welcome.line_3}</p>
+          <h1>{home.heading}</h1>
+          <p>{home.line_1}</p>
+          <p>{home.line_2}</p>
+          <p>{home.line_3}</p>
         </div>
       )}
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BlogSearch from "./_library/blog-search";
-import "./global.css";
+import "@/private/styles/global.css";
 
 
 export const metadata: Metadata = {
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     images: [{ url: 'https://amin394t.github.io/Personal-Blog/images/_logo.png' }],
   },
 };
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

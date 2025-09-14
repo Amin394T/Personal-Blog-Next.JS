@@ -4,9 +4,12 @@ import { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
-import '@/private/styles/Article.css';
 import blogsList from '@/private/markdown/_files_list.json';
+import '@/private/styles/Article.css';
 
+type Props = {
+  params: Promise<{ blog: string }>;
+}
 
 type BlogPost = {
   path: string;
@@ -17,10 +20,6 @@ type BlogPost = {
   tags: string[];
   hidden?: boolean;
 };
-
-type Props = {
-  params: Promise<{ blog: string }>;
-}
 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -43,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 
 async function Article({ params }: Props) {
-  const { blog } : { blog: string } = await params;
+  const { blog } = await params;
   const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData)
@@ -68,7 +67,7 @@ async function Article({ params }: Props) {
       <Markdown>{data}</Markdown>
 
       <span className="article-tags">
-        { blogData.tags.map((tag: string) => <Link key={tag} href={`/?search=${tag}`}><span>&#35; {tag}</span></Link>) }
+        { blogData.tags.map((tag: string) => <Link key={tag} href={`/?search=${tag}`}>&#35; {tag}</Link>) }
       </span>
     </div>
   );
