@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
+import CommentList from './comment-list';
 import blogsList from '@/private/markdown/_files_list.json';
 import '@/private/styles/Article.css';
 
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 
-async function Article({ params }: Props) {
+export default async function Article({ params }: Props) {
   const { blog } = await params;
   const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
 
@@ -53,24 +54,26 @@ async function Article({ params }: Props) {
   // improve by using importAll
 
   return (
-    <div className="article">      
-      <div className="article-image" style={{backgroundImage: `linear-gradient(rgba(245, 239, 230, 0.2), rgba(245, 239, 230, 1)), url(/images/${blogData.image})`}}>
-        <h1>{blogData.title}</h1>
+    <>
+      <div className="article">      
+        <div className="article-image" style={{backgroundImage: `linear-gradient(rgba(245, 239, 230, 0.2), rgba(245, 239, 230, 1)), url(/images/${blogData.image})`}}>
+          <h1>{blogData.title}</h1>
 
-        <div className="article-info" >  
-          <Link href={`/?search=${blogData.tags[0]}`}><span>📘 &nbsp;{blogData.tags[0]}</span></Link>
-          <Link href={`/?search=${blogData.author}`}><span>🖊️ &nbsp;{blogData.author}</span></Link>
-          <span>🕓 &nbsp;{blogData.date}</span>
+          <div className="article-info" >  
+            <Link href={`/?search=${blogData.tags[0]}`}>📘 &nbsp;{blogData.tags[0]}</Link>
+            <Link href={`/?search=${blogData.author}`}>🖊️ &nbsp;{blogData.author}</Link>
+            <span>🕓 &nbsp;{blogData.date}</span>
+          </div>
         </div>
+
+        <Markdown>{data}</Markdown>
+
+        <span className="article-tags">
+          { blogData.tags.map((tag: string) => <Link key={tag} href={`/?search=${tag}`}>&#35; {tag}</Link>) }
+        </span>
       </div>
-
-      <Markdown>{data}</Markdown>
-
-      <span className="article-tags">
-        { blogData.tags.map((tag: string) => <Link key={tag} href={`/?search=${tag}`}>&#35; {tag}</Link>) }
-      </span>
-    </div>
+    
+      {/* <CommentList {...{ parent: blogData.path }} /> */}
+    </>
   );
 }
-
-export default Article;

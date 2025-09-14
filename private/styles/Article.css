@@ -23,7 +23,7 @@
   line-height: 1.7;
 }
 
-.article a {
+.article p a {
   font-weight: bold;
   color: #0080a8;
   text-decoration: none;
@@ -53,11 +53,12 @@
   margin-bottom: 40px;
 }
 
-.article-info span {
+.article-info > * {
   margin-right: 30px;
   font-size: 14px;
   color: #003135;
   font-weight: normal;
+  text-decoration: none;
 }
 
 .article-tags {
@@ -67,13 +68,14 @@
   gap: 10px;
 }
 
-.article-tags a {
+.article-tags > * {
   background-color: #003135;
   padding: 1px 5px;
   border-radius: 5px;
   color: #f5efe6;
   font-size: 11px;
   font-weight: normal;
+  text-decoration: none;
 }
 
 .article-image {
