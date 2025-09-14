@@ -47,7 +47,7 @@ async function Article({ params }: Props) {
   const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData)
-    return (<div className="error article"> <div>&#x2716;</div> Oops! Something went wrong. </div>);
+    return notFound();
     
   const markdownPath = path.join(process.cwd(), 'private', 'markdown');
   const data = fs.readFileSync(markdownPath + `/${blogData.path}.md`, 'utf-8');
@@ -60,7 +60,7 @@ async function Article({ params }: Props) {
 
         <div className="article-info" >  
           <Link href={`/?search=${blogData.tags[0]}`}><span>📘 &nbsp;{blogData.tags[0]}</span></Link>
-          <Link href={`/?search=${blogData.author}`}><span className="article-author">🖊️ &nbsp;{blogData.author}</span></Link>
+          <Link href={`/?search=${blogData.author}`}><span>🖊️ &nbsp;{blogData.author}</span></Link>
           <span>🕓 &nbsp;{blogData.date}</span>
         </div>
       </div>

@@ -60,10 +60,6 @@
   font-weight: normal;
 }
 
-.article-author {
-  cursor: pointer;
-}
-
 .article-tags {
   margin-top: 40px;
   display: flex;
