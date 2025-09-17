@@ -13,7 +13,7 @@ export type Comment = {
   status: "normal" | "edited" | "removed" | "orphan" | "blocked";
 };
 
-const COMMENT_API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_COMMENT_API_URL;
 
 
 export default function CommentList({ parent }: { parent: string | number }) {
@@ -29,7 +29,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
 
     const loadComments = async () => {
       try {
-        const res = await fetch(`${COMMENT_API_URL}/messages/${parent}`);
+        const res = await fetch(`${API_URL}/messages/${parent}`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         if (!ignore) setComments(data);
@@ -53,7 +53,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
     const confirmDelete = window.confirm('Delete this comment?');
     if (!confirmDelete) return;
 
-    const request = await fetch(`${COMMENT_API_URL}/messages/${id}`, {
+    const request = await fetch(`${API_URL}/messages/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -97,7 +97,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
         )
       }
       {
-        showEditor != 0
+        showEditor == -1
           ? <CommentEditor {...{id: parent, setComments, setShowEditor, mode: "create"}} /> 
           : isReply && <button onClick={() => setShowEditor(-1)}> Reply </button>
       }

@@ -12,6 +12,8 @@ type Props = {
   mode: "create" | "update";
 };
 
+const API_URL = process.env.NEXT_PUBLIC_COMMENT_API_URL;
+
 
 export default function CommentEditor({ id, content, setComments, setShowEditor, mode }: Props) {
   const editorRef: any = useRef(null);
@@ -44,7 +46,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
       return;
     }
 
-    const request = await fetch(`${process.env.COMMENT_API_URL}/users/register`, {
+    const request = await fetch(`${API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
@@ -71,7 +73,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     if (mode == "create") {
 
-      const request = await fetch(`${process.env.COMMENT_API_URL}/messages`, {
+      const request = await fetch(`${API_URL}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -99,7 +101,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     else if (mode == "update") {
 
-      const request = await fetch(`${process.env.COMMENT_API_URL}/messages/${id}`, {
+      const request = await fetch(`${API_URL}/messages/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -112,7 +114,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
       if (response.code == 59) {
         setComments((prevComments: Comment[]) => (
-          prevComments.map((comment: Comment) => { comment.id == id ? { ...comment, content: response.content } : comment })
+          prevComments.map((comment: Comment) => comment.id == id ? { ...comment, content: response.content } : comment)
         ));
         handleClearComment();
       }
