@@ -1,9 +1,8 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
-import sequelize from './database';
+import { DataTypes } from "sequelize";
+import sequelize from "./database";
 
-class Message extends Model {}
-
-Message.init(
+const Message = sequelize.define(
+  "Message",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -28,13 +27,11 @@ Message.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('normal', 'edited', 'removed', 'orphan', 'blocked'),
-      defaultValue: 'normal',
-    },
+      type: DataTypes.ENUM("normal", "edited", "removed", "orphan", "blocked"),
+      defaultValue: "normal",
+    }
   },
   {
-    sequelize,
-    modelName: 'Message',
     timestamps: false,
   }
 );

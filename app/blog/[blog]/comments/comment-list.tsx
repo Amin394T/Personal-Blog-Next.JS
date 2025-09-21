@@ -29,7 +29,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
 
     const loadComments = async () => {
       try {
-        const res = await fetch(`${API_URL}/messages/${parent}`);
+        const res = await fetch(`${window.location.pathname}/comments`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         if (!ignore) setComments(data);

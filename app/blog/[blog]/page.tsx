@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+// TO-DO: make links dynamic
 
 
 export default async function Article({ params }: Props) {
