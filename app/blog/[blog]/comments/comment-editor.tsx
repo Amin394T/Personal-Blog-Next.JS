@@ -73,7 +73,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     if (mode == "create") {
 
-      const request = await fetch(`${API_URL}/messages`, {
+      const request = await fetch(`${window.location.pathname}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

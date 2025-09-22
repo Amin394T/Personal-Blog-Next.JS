@@ -1,0 +1,5 @@
+- FINISH BACK-END MIGRATION
+- backup utilities
+- metadata dynamic links
+- render comments list on the server
+- add date next to name

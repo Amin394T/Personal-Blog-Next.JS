@@ -1,7 +1,7 @@
-import Message from './messageModel';
-import User from './userModel';
+import Message from '../../../../database/messageModel';
+import User from '../../../../database/userModel';
 import { Op } from 'sequelize';
-import { exportData, importData, TOKEN } from './backupUtilities';
+import { exportData, importData, TOKEN } from '../../../../database/backupUtilities';
 
 async function authorizeUser(username: string, password: string) {
   const user = await User.findByPk(username);

@@ -1,5 +1,5 @@
-import User from './userModel';
-import { exportData, importData, TOKEN } from './backupUtilities';
+import User from '../../database/userModel';
+import { exportData, importData, TOKEN } from '../../database/backupUtilities';
 
 export async function registerUser({ username, password }: any) {
   username = username.trim();
