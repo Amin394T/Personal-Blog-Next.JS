@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   description: "Simplistic blog website template that displays a list of blogs, allows searching blogs, and displays the content of a selected blog.",
   openGraph: {
     type: 'article',
-    url: 'https://amin394t.github.io/Personal-Blog/',
+    url: '/',
     title: 'Personal Blog',
     description: 'Simplistic blog website template that displays a list of blogs, allows searching blogs, and displays the content of a selected blog.',
-    images: [{ url: 'https://amin394t.github.io/Personal-Blog/images/_logo.png' }],
+    images: [{ url: '/images/_logo.png' }],
   },
 };
 

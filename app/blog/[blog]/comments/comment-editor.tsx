@@ -12,8 +12,6 @@ type Props = {
   mode: "create" | "update";
 };
 
-const API_URL = process.env.NEXT_PUBLIC_COMMENT_API_URL;
-
 
 export default function CommentEditor({ id, content, setComments, setShowEditor, mode }: Props) {
   const editorRef: any = useRef(null);
@@ -46,10 +44,10 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
       return;
     }
 
-    const request = await fetch(`${API_URL}/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
+    const request = await fetch(`${window.location.origin}/users/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
     });
     const response = await request.json();
 
@@ -77,6 +75,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id, // pass as path param to conform to RESTful API design
           username,
           password,
           content: editorRef.current.value,
@@ -101,10 +100,11 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     else if (mode == "update") {
 
-      const request = await fetch(`${API_URL}/messages/${id}`, {
+      const request = await fetch(`${window.location.origin}/messages`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id,
           username,
           password,
           content: editorRef.current.value

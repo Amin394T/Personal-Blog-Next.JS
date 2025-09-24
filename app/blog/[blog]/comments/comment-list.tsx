@@ -13,8 +13,6 @@ export type Comment = {
   status: "normal" | "edited" | "removed" | "orphan" | "blocked";
 };
 
-const API_URL = process.env.NEXT_PUBLIC_COMMENT_API_URL;
-
 
 export default function CommentList({ parent }: { parent: string | number }) {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -53,10 +51,11 @@ export default function CommentList({ parent }: { parent: string | number }) {
     const confirmDelete = window.confirm('Delete this comment?');
     if (!confirmDelete) return;
 
-    const request = await fetch(`${API_URL}/messages/${id}`, {
+    const request = await fetch(`${parent}/comments`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        id,
         username: localStorage.getItem('username'),
         password: localStorage.getItem('password')
       }),

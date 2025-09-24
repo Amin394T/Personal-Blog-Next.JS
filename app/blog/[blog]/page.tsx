@@ -33,10 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: 'Read the blog post titled ' + blogData?.title,
     openGraph: {
       type: 'article',
-      url: 'https://amin394t.github.io/Personal-Blog/?blog=' + blogData?.path,
+      url: '/blog/' + blogData?.path,
       title: blogData?.title,
-      description: 'Read the blog post titled ' + blogData?.title,
-      images: [{ url: 'https://amin394t.github.io/Personal-Blog/images/' + blogData?.image }],
+      description: 'Read the blog post titled ' + blogData?.title, // add proper description
+      images: [{ url: '/images/' + blogData?.image }],
     },
   };
 }
