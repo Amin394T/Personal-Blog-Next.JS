@@ -7,8 +7,6 @@ type Parameters = {
   params: Promise<{ blog: string }>;
 };
 
-const TOKEN = '7P11QK39PIDI7Y9X63V5';
-
 
 async function authorizeUser(username: string, password: string) {
   const user: any = await User.findByPk(username);
@@ -62,8 +60,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 
-export const PUT = async (req: NextRequest, { params }: Parameters) => {
-  const { blog } = await params;
+export const PUT = async (req: NextRequest) => {
   const { id, username, password, content } = await req.json();
 
   if (!content)
@@ -98,12 +95,11 @@ export const PUT = async (req: NextRequest, { params }: Parameters) => {
 }
 
     
-export const DELETE = async (req: NextRequest, { params }: Parameters) => {
-  const { blog } = await params;
+export const DELETE = async (req: NextRequest) => {
   const { id, username, password, token } = await req.json();
 
   const authorization = await authorizeUser(username, password);
-  if (authorization.code != 0 && token != TOKEN)
+  if (authorization.code != 0 && token != process.env.ADMIN_TOKEN)
     return NextResponse.json({ code: 60 + authorization.code, message: authorization.message }, { status: 401 });
 
   try {
@@ -118,7 +114,7 @@ export const DELETE = async (req: NextRequest, { params }: Parameters) => {
     if (new Date(message.date) < timeLimit)
       return NextResponse.json({ code: 66, message: "Time Limit Exceeded!" }, { status: 403 });
 
-    token != TOKEN
+    token != process.env.ADMIN_TOKEN
       ? message.status = "removed"
       : message.status = "blocked";
     message.date = new Date();
