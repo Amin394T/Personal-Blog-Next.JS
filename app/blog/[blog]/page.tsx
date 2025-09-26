@@ -22,9 +22,8 @@ type BlogPost = {
   hidden?: boolean;
 };
 
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { blog } = await params;
+export async function generateMetadata({ params }: { params: { blog: string } }): Promise<Metadata> {
+  const { blog } = params;
   const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData) return {};
@@ -40,11 +39,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
-// TO-DO: make links dynamic
 
+export async function generateStaticParams() {
+  return blogsList.map((post) => ({
+    blog: post.path,
+  }))
+}
 
-export default async function Article({ params }: Props) {
-  const { blog } = await params;
+export default async function Article({ params }: { params: { blog: string } }) {
+  const { blog } = params;
   const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData)
