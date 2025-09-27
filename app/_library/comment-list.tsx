@@ -27,7 +27,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
 
     const loadComments = async () => {
       try {
-        const res = await fetch(`${parent}/comments`);
+        const res = await fetch(`${window.location.origin}/api/comments`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         if (!ignore) setComments(data);
@@ -51,7 +51,7 @@ export default function CommentList({ parent }: { parent: string | number }) {
     const confirmDelete = window.confirm('Delete this comment?');
     if (!confirmDelete) return;
 
-    const request = await fetch(`${parent}/comments`, {
+    const request = await fetch(`${window.location.origin}/api/comments`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

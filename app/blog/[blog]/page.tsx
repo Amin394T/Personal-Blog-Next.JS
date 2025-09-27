@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
-import CommentList from './comments/comment-list';
+import CommentList from '../../_library/comment-list';
 import blogsList from '@/private/markdown/_files_list.json';
 import '@/private/styles/Article.css';
 

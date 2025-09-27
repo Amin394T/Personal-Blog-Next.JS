@@ -44,7 +44,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
       return;
     }
 
-    const request = await fetch(`${window.location.origin}/users/register`, {
+    const request = await fetch(`${window.location.origin}/api/users/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
@@ -71,11 +71,10 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     if (mode == "create") {
 
-      const request = await fetch(`${window.location.pathname}/comments`, {
+      const request = await fetch(`${window.location.origin}/api/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id, // pass as path param to conform to RESTful API design
           username,
           password,
           content: editorRef.current.value,
@@ -100,7 +99,7 @@ export default function CommentEditor({ id, content, setComments, setShowEditor,
 
     else if (mode == "update") {
 
-      const request = await fetch(`${window.location.origin}/messages`, {
+      const request = await fetch(`${window.location.origin}/api/comments`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
