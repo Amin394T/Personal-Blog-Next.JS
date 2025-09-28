@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import BlogSearch from "./_library/blog-search";
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="navigation">
           <Link href="/"> <img className="navigation-logo" src="/images/_logo.png" alt="logo" /> </Link>
-          <BlogSearch />
+          <Suspense><BlogSearch /></Suspense>
         </div>
 
         {children}
