@@ -5,6 +5,7 @@
     "title": "The Last Title",
     "author": "Writer 3",
     "date": "2021-01-19",
+    "description": "This is a description of the last title.",
     "tags": ["Topic 6", "Topic 1", "Topic 3"]
   },
   {
@@ -13,6 +14,7 @@
     "title": "This is a Placeholder Title",
     "author": "Writer 7",
     "date": "2023-06-27",
+    "description": "This is a description of the placeholder title.",
     "tags": ["Topic 2", "Topic 6"]
   },
   {
@@ -21,6 +23,7 @@
     "title": "Yet Another Placeholder",
     "author": "Writer 3",
     "date": "2022-11-08",
+    "description": "This is a description of yet another placeholder.",
     "tags": ["Topic 2", "Topic 3", "Topic 7"]
   },
   {
@@ -29,6 +32,7 @@
     "title": "Generic Chain of Characters",
     "author": "Writer 8",
     "date": "2024-04-01",
+    "description": "This is a description of generic chain of characters.",
     "tags": ["Topic 8", "Topic 1", "Topic 7", "Topic 5"]
   },
   {
@@ -37,6 +41,7 @@
     "title": "This is the Title",
     "author": "Writer 1",
     "date": "2019-06-01",
+    "description": "This is a description of the title.",
     "tags": ["Topic 5"]
   },
   {
@@ -45,6 +50,7 @@
     "title": "Some Random Title",
     "author": "Writer 2",
     "date": "2020-10-22",
+    "description": "This is a description of some random title.",
     "tags": ["Topic 2", "Topic 8", "Topic 6"]
   },
   {
@@ -53,6 +59,7 @@
     "title": "A Random Blog",
     "author": "Writer 3",
     "date": "2022-11-30",
+    "description": "This is a description of a random blog.",
     "tags": ["Topic 8", "Topic 2"],
     "hidden": false
   }

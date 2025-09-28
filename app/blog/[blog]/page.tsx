@@ -18,6 +18,7 @@ type BlogPost = {
   title: string;
   author: string;
   date: string;
+  description: string;
   tags: string[];
   hidden?: boolean;
 };
@@ -29,12 +30,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!blogData) return {};
   return {
     title: blogData?.title,
-    description: 'Read the blog post titled ' + blogData?.title,
+    description: blogData?.description,
     openGraph: {
       type: 'article',
       url: '/blog/' + blogData?.path,
       title: blogData?.title,
-      description: 'Read the blog post titled ' + blogData?.title, // add proper description
+      description: blogData?.description,
       images: [{ url: '/images/' + blogData?.image }],
     },
   };
@@ -55,7 +56,6 @@ export default async function Article({ params }: Props) {
     
   const markdownPath = path.join(process.cwd(), 'private', 'markdown');
   const data = fs.readFileSync(markdownPath + `/${blogData.path}.md`, 'utf-8');
-  // improve by using importAll
 
   return (
     <>

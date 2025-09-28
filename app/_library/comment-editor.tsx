@@ -7,8 +7,8 @@ import "@/private/styles/Editor.css";
 type Props = {
   id: number | string;
   content?: string;
-  setComments: any; //(comments: Comment[] | ((comment: any) => Comment[])) => void;
-  setShowEditor: any; //(id: number) => void;
+  setComments: (comments: Comment[] | ((comment: any) => Comment[])) => void;
+  setShowEditor: (id: number) => void;
   mode: "create" | "update";
 };
 
