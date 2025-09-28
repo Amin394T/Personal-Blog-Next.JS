@@ -27,11 +27,14 @@ export default function CommentList({ parent }: { parent: string | number }) {
 
     const loadComments = async () => {
       try {
-        const res = await fetch(`${window.location.origin}/api/comments`);
-        if (!res.ok) throw new Error("Failed to fetch");
+        const res = await fetch(`${window.location.origin}/api/comments/${parent}`);
+        if (!res.ok)
+          throw new Error("Failed to fetch");
         const data = await res.json();
-        if (!ignore) setComments(data);
-      } catch (err) {
+        if (!ignore)
+          setComments(data);
+      } 
+      catch (err) {
         console.error(err);
       }
     };

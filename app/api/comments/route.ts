@@ -3,10 +3,6 @@ import { Op } from "sequelize";
 import Message from "@/database/messageModel";
 import User from "@/database/userModel";
 
-type Parameters = {
-  params: Promise<{ blog: string }>;
-};
-
 
 async function authorizeUser(username: string, password: string) {
   const user: any = await User.findByPk(username);
@@ -19,25 +15,6 @@ async function authorizeUser(username: string, password: string) {
   
   return { code: 0, message: "User Authorized." };
 }
-
-
-export const GET = async (_req: NextRequest, { params }: Parameters) => {
-  const { blog } = await params;
-
-  try {
-    const messages = await Message.findAll({
-      where: {
-        parent: blog,
-        status: { [Op.in]: ["normal", "edited"] },
-      },
-    });
-
-    return NextResponse.json(messages);
-  }
-  catch (error: any) {
-    return NextResponse.json({ code: 40, message: error.message });
-  }
-};
 
 export const POST = async (req: NextRequest) => {
   const { parent, username, password, content } = await req.json();
@@ -60,7 +37,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 
-export const PUT = async (req: NextRequest) => {
+export const PATCH = async (req: NextRequest) => {
   const { id, username, password, content } = await req.json();
 
   if (!content)
