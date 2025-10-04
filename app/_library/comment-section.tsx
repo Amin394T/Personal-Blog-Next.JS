@@ -5,10 +5,6 @@ import type { Comment } from "./types";
 import "@/private/styles/Comments.css";
 
 
-function CommentLoading() {
-    return (<div className="spinner comment-card"> <div></div> </div>);
-}
-
 export default async function CommentSection({ blog }: { blog: string }) {
 
   const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/comments/${blog}`, { cache: 'no-store' });
@@ -22,7 +18,8 @@ export default async function CommentSection({ blog }: { blog: string }) {
       {
         comments.map((comment: Comment) =>
           <div className="comment-thread" key={comment.id}>
-            <Suspense fallback={<CommentLoading />}>
+            <Suspense fallback={<div className="spinner comment-card"> <div></div> </div>}>
+              
               <CommentCard comment={comment} />
               <div className="comment-replies">
                 {
@@ -31,8 +28,8 @@ export default async function CommentSection({ blog }: { blog: string }) {
                   )
                 }
               </div>
+
             </Suspense>
-            
             <CommentEditor id={comment.id} mode="create" show={false} />
           </div>
         )

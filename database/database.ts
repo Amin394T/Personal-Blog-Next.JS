@@ -1,11 +1,10 @@
 import { Sequelize } from 'sequelize';
 
-
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   dialectModule: (await import('sqlite3')),
   storage: './database/database.sqlite',
-  //logging: false
+  logging: false
 });
 
 await sequelize.sync();

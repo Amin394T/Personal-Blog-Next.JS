@@ -1,6 +1,4 @@
 # Next JS Version
-+ fix comment editing
-+ make top editor unhidable
 - use server actions for comments
 - add date in comment
 - add favicon

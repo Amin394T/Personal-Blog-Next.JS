@@ -6,7 +6,7 @@ import "@/private/styles/Editor.css";
 type Props = {
   id: number | string;
   content?: string;
-  show: boolean;
+  show: boolean | ((value: boolean) => void);
   mode: "create" | "update";
 };
 
@@ -16,7 +16,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   const usernameRef: any = useRef(null);
   const passwordRef: any = useRef(null);
   const [processing, setProcessing] = useState(false);
-  const [visible, setVisible] = useState(show);
+  const [visible, setVisible] = useState(show ? true : false);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       passwordRef.current.value = localStorage.getItem("password") ?? '';
     }
   }, [visible]);
+  
 
   let handleStretchArea = () => {
     editorRef.current.style.height = "0";
@@ -33,9 +34,13 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   };
 
   let handleClearComment = () => {
-    editorRef.current.value = "";
-    handleStretchArea();
-    typeof id === "number" && setVisible(false);
+    if (mode == "update" && typeof show === "function")
+      show(false);
+    else {
+      editorRef.current.value = "";
+      handleStretchArea();
+      typeof id === "number" && setVisible(false);
+    }
   };
 
   let handleRegistration = async (username: string, password: string) => {
