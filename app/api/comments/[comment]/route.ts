@@ -11,14 +11,24 @@ export const GET = async (_req: NextRequest, { params }: Parameters) => {
   const { comment } = await params;
 
   try {
-    const messages = await Message.findAll({
+    const comments: any = await Message.findAll({
       where: {
         parent: comment,
         status: { [Op.in]: ["normal", "edited"] },
       },
     });
 
-    return NextResponse.json(messages);
+    for (let comment of comments) {
+      const replies = await Message.findAll({
+        where: {
+          parent: comment.id,
+          status: { [Op.in]: ["normal", "edited"] },
+        },
+      });
+      comment.setDataValue('replies', replies);
+    }
+
+    return NextResponse.json(comments);
   }
   catch (error: any) {
     return NextResponse.json({ code: 40, message: error.message });

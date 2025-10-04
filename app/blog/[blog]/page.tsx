@@ -7,6 +7,7 @@ import Markdown from 'react-markdown';
 import CommentList from '../../_library/comment-list';
 import blogsList from '@/private/markdown/_files_list.json';
 import '@/private/styles/Article.css';
+import CommentSection from '@/app/_library/comment-section';
 
 type Props = {
   params: Promise<{ blog: string }>;
@@ -77,7 +78,7 @@ export default async function Article({ params }: Props) {
         </span>
       </div>
     
-      <CommentList {...{ parent: blogData.path }} />
+      <CommentSection blog={blog} />
     </>
   );
 }
