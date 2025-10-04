@@ -5,6 +5,10 @@ import type { Comment } from "./types";
 import "@/private/styles/Comments.css";
 
 
+function CommentLoading() {
+    return (<div className="spinner comment-card"> <div></div> </div>);
+}
+
 export default async function CommentSection({ blog }: { blog: string }) {
 
   const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/comments/${blog}`, { cache: 'no-store' });
@@ -17,16 +21,18 @@ export default async function CommentSection({ blog }: { blog: string }) {
       <CommentEditor id={blog} mode="create" show={true} />
       {
         comments.map((comment: Comment) =>
-          <div className="comment-thread" key={comment.id} >
-            <Suspense fallback={<div>Loading...</div>}><CommentCard comment={comment} /></Suspense>
+          <div className="comment-thread" key={comment.id}>
+            <Suspense fallback={<CommentLoading />}>
+              <CommentCard comment={comment} />
+              <div className="comment-replies">
+                {
+                  comment.replies && comment.replies.map((reply: Comment) =>
+                    <CommentCard key={reply.id} comment={reply} />
+                  )
+                }
+              </div>
+            </Suspense>
             
-            <div className="comment-replies">
-              {
-                comment.replies && comment.replies.map((reply: Comment) =>
-                  <Suspense key={reply.id} fallback={<div>Loading...</div>}><CommentCard comment={reply} /></Suspense>
-                )
-              }
-            </div>
             <CommentEditor id={comment.id} mode="create" show={false} />
           </div>
         )

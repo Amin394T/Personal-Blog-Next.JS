@@ -35,7 +35,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   let handleClearComment = () => {
     editorRef.current.value = "";
     handleStretchArea();
-    setVisible(false);
+    typeof id === "number" && setVisible(false);
   };
 
   let handleRegistration = async (username: string, password: string) => {
@@ -111,6 +111,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       else
         alert(response.message);
     }
+    
     setProcessing(false);
   };
 
