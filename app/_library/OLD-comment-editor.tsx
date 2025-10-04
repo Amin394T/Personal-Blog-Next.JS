@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import type { Comment } from "./comment-list";
+import type { Comment } from "./OLD-comment-list";
 import "@/private/styles/Editor.css";
 
 type Props = {

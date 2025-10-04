@@ -30,7 +30,7 @@ export default async function Home({ searchParams }: Props) {
         </div>
       )}
 
-      <BlogList {...{ query: search }} />
+      <BlogList query={search} />
     </>
   );
 }

@@ -1,9 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
-import type { Comment } from "./comment-list";
-import "@/private/styles/Editor.css";
 import { useRouter } from "next/navigation";
+import "@/private/styles/Editor.css";
 
 type Props = {
   id: number | string;
@@ -19,7 +17,6 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   const passwordRef: any = useRef(null);
   const [processing, setProcessing] = useState(false);
   const [visible, setVisible] = useState(show);
-  const params = useParams();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +25,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       usernameRef.current.value = localStorage.getItem("username") ?? '';
       passwordRef.current.value = localStorage.getItem("password") ?? '';
     }
-  }, [content]);
+  }, [visible]);
 
   let handleStretchArea = () => {
     editorRef.current.style.height = "0";
@@ -70,6 +67,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
 
     const username = usernameRef.current.value.trim();
     const password = passwordRef.current.value;
+    const content = editorRef.current.value.trim();
     localStorage.setItem("username", username);
     localStorage.setItem("password", password);
 
@@ -78,12 +76,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       const request = await fetch(`${window.location.origin}/api/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password,
-          content: editorRef.current.value,
-          parent: id.toString()
-        })
+        body: JSON.stringify({ username, password, content, parent: id.toString() })
       });
       const response = await request.json();
 
@@ -105,12 +98,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       const request = await fetch(`${window.location.origin}/api/comments`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id,
-          username,
-          password,
-          content: editorRef.current.value
-        })
+        body: JSON.stringify({ id, username, password, content })
       });
       const response = await request.json();
 

@@ -6,6 +6,7 @@ import "@/private/styles/global.css";
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || ''),
   title: "Personal Blog",
   description: "Simplistic blog website template that displays a list of blogs, allows searching blogs, and displays the content of a selected blog.",
   openGraph: {

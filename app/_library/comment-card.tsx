@@ -1,11 +1,18 @@
-"use client";
+'use client';
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Comment } from "./types";
 
 
-
 function CommentCard({ comment }: { comment: Comment }) {
     const router = useRouter();
+    const [username, setUsername] = useState<string | null>(null);
+    const [password, setPassword] = useState<string | null>(null);
+
+    useEffect(() => { 
+        setUsername(localStorage.getItem('username'));
+        setPassword(localStorage.getItem('password'));
+    }, [comment]);
 
     let handleModify = (comment: Comment) => {
         // setContent(comment.content);
@@ -19,16 +26,11 @@ function CommentCard({ comment }: { comment: Comment }) {
         const request = await fetch(`${window.location.origin}/api/comments`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id,
-                username: localStorage.getItem('username'),
-                password: localStorage.getItem('password')
-            }),
+            body: JSON.stringify({ id, username, password })
         });
         const response = await request.json();
 
         if (request.ok)
-            //setComments(comments.filter((comment) => comment.id != id));
             router.refresh();
         else if (response.code == 60)
             alert("Technical Error!");
@@ -37,11 +39,11 @@ function CommentCard({ comment }: { comment: Comment }) {
     };
 
     return (
-        <div className="comment">
+        <div className="comment-card">
             <div className="comment-user">
                 💬 &nbsp; {comment.user}
                 {
-                    comment.user == localStorage.getItem('username') &&
+                    comment.user == username &&
                     <span>
                         <span className="comment-modify" onClick={() => handleModify(comment)} title="Modify"> 📋 </span>
                         <span className="comment-delete" onClick={() => handleDelete(comment.id)} title="Delete"> 🗑️ </span>

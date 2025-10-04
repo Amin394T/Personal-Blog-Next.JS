@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import CommentEditor from "./comment-editor";
 import CommentCard from "./comment-card";
 import type { Comment } from "./types";
 import "@/private/styles/Comments.css";
-import { Suspense } from "react";
+
 
 export default async function CommentSection({ blog }: { blog: string }) {
 
@@ -12,14 +13,14 @@ export default async function CommentSection({ blog }: { blog: string }) {
   const comments = await data.json();
 
   return (
-    <div className="comment-list comments">
+    <div className="comment-section">
       <CommentEditor id={blog} mode="create" show={true} />
       {
         comments.map((comment: Comment) =>
-          <div className="comments-list" key={comment.id} >
+          <div className="comment-thread" key={comment.id} >
             <Suspense fallback={<div>Loading...</div>}><CommentCard comment={comment} /></Suspense>
             
-            <div className="comments">
+            <div className="comment-replies">
               {
                 comment.replies && comment.replies.map((reply: Comment) =>
                   <Suspense key={reply.id} fallback={<div>Loading...</div>}><CommentCard comment={reply} /></Suspense>

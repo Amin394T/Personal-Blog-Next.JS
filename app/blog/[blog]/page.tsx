@@ -4,10 +4,9 @@ import { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
-import CommentList from '../../_library/comment-list';
+import CommentSection from '@/app/_library/comment-section';
 import blogsList from '@/private/markdown/_files_list.json';
 import '@/private/styles/Article.css';
-import CommentSection from '@/app/_library/comment-section';
 
 type Props = {
   params: Promise<{ blog: string }>;
@@ -23,6 +22,7 @@ type BlogPost = {
   tags: string[];
   hidden?: boolean;
 };
+
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { blog } = await params;
