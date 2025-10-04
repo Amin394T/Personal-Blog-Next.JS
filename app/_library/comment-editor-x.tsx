@@ -3,31 +3,27 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import type { Comment } from "./comment-list";
 import "@/private/styles/Editor.css";
-import { useRouter } from "next/navigation";
 
 type Props = {
   id: number | string;
   content?: string;
-  show: boolean;
+  setComments: (comments: Comment[] | ((comment: any) => Comment[])) => void;
+  setShowEditor: (id: number) => void;
   mode: "create" | "update";
 };
 
 
-export default function CommentEditor({ id, content, show, mode }: Props) {
+export default function CommentEditor({ id, content, setComments, setShowEditor, mode }: Props) {
   const editorRef: any = useRef(null);
   const usernameRef: any = useRef(null);
   const passwordRef: any = useRef(null);
   const [processing, setProcessing] = useState(false);
-  const [visible, setVisible] = useState(show);
   const params = useParams();
-  const router = useRouter();
 
   useEffect(() => {
-    if (visible) {
-      editorRef.current.value = content ?? '';
-      usernameRef.current.value = localStorage.getItem("username") ?? '';
-      passwordRef.current.value = localStorage.getItem("password") ?? '';
-    }
+    editorRef.current.value = content ?? '';
+    usernameRef.current.value = localStorage.getItem("username") ?? '';
+    passwordRef.current.value = localStorage.getItem("password") ?? '';
   }, [content]);
 
   let handleStretchArea = () => {
@@ -38,7 +34,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   let handleClearComment = () => {
     editorRef.current.value = "";
     handleStretchArea();
-    setVisible(false);
+    setShowEditor(0);
   };
 
   let handleRegistration = async (username: string, password: string) => {
@@ -88,8 +84,9 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       const response = await request.json();
 
       if (response.code == 39) {
-        router.refresh();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        params?.blog == id.toString()
+          ? setComments((prevComments: Comment[]) => [response, ...prevComments])
+          : setComments((prevComments: Comment[]) => [...prevComments, response]);
         handleClearComment();
       }
       else if (response.code == 31 && username)
@@ -115,7 +112,9 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       const response = await request.json();
 
       if (response.code == 59) {
-        router.refresh();
+        setComments((prevComments: Comment[]) => (
+          prevComments.map((comment: Comment) => comment.id == id ? { ...comment, content: response.content } : comment)
+        ));
         handleClearComment();
       }
       else if (response.code == 50)
@@ -127,18 +126,13 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   };
 
 
-  if (!visible)
-    return <button className="editor-toggle" onClick={() => setVisible(true)}> Reply </button>;
-
   return (
     <div className="editor" key={id}>
       <textarea placeholder="Write a comment ..." ref={editorRef} onChange={handleStretchArea} />
-
       <div className="editor-authentication" style={{ visibility: mode == "update" ? "hidden" : "visible" }}>
         <input ref={usernameRef} type="text" placeholder="Username" />
         <input ref={passwordRef} type="password" placeholder="Password" />
       </div>
-
       <div className="editor-controls">
         <button onClick={handleClearComment}>Cancel</button>
         <button onClick={handleSubmit} disabled={processing}>Submit</button>

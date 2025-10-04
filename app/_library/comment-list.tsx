@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import CommentEditor from "./comment-editor";
+import CommentEditor from "./comment-editor-x";
 import "@/private/styles/Comments.css";
 
 export type Comment = {

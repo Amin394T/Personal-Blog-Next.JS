@@ -1,6 +1,6 @@
 .comments {
   max-width: 1020px;
-  margin: 0 auto 15px;
+  margin: 0 auto;
   height: fit-content;
   top: 0;
 }
@@ -26,10 +26,6 @@
   cursor: not-allowed;
 }
 
-.comments > button {
-  margin-left: calc(100% - 75px);
-  margin-bottom: 30px;
-}
 
 .comments-list > .comments{
   padding-left: 30px;

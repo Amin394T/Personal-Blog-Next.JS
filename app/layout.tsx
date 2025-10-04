@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="navigation">
           <Link href="/"> <img className="navigation-logo" src="/images/_logo.png" alt="logo" /> </Link>
-          <Suspense><BlogSearch /></Suspense>
+          <Suspense> <BlogSearch /> </Suspense>
         </div>
 
         {children}
