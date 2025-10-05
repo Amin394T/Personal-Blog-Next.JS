@@ -1,19 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
 import { Op } from "sequelize";
 import Message from "@/database/messageModel";
 
-type Parameters = {
-  params: Promise<{ comment: string }>;
-};
-
-
-export const GET = async (_req: NextRequest, { params }: Parameters) => {
-  const { comment } = await params;
-
+export const getComments = async (blog: string) => {
   try {
-    const comments: any = await Message.findAll({
+    let comments: any = await Message.findAll({
       where: {
-        parent: comment,
+        parent: blog,
         status: { [Op.in]: ["normal", "edited"] },
       },
     });
@@ -28,9 +20,9 @@ export const GET = async (_req: NextRequest, { params }: Parameters) => {
       comment.setDataValue('replies', replies);
     }
 
-    return NextResponse.json(comments);
+    return JSON.parse(JSON.stringify(comments));
   }
   catch (error: any) {
-    return NextResponse.json({ code: 40, message: error.message });
+    return { code: 40, message: error.message };
   }
 };

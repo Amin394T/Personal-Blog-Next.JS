@@ -36,12 +36,13 @@ function CommentCard({ comment }: { comment: Comment }) {
             alert(response.message);
     };
 
+    
     if (editing)
         return (<CommentEditor id={comment.id} content={comment.content} show={setEditing} mode="update" />);
 
     return (
         <div className="comment-card">
-            <div className="comment-user" title={ new Date(comment.date).toLocaleString() + ` (${comment.status})` }>
+            <div className="comment-user" title={ new Date(comment.date).toLocaleString('en-UK') + ` (${comment.status})` }>
                 💬 &nbsp; {comment.user}
                 {
                     comment.user == username
@@ -49,7 +50,7 @@ function CommentCard({ comment }: { comment: Comment }) {
                         <span className="comment-modify" onClick={() => setEditing(true)} title="Modify"> 📋 </span>
                         <span className="comment-delete" onClick={() => handleDelete(comment.id)} title="Delete"> 🗑️ </span>
                       </span>
-                    : <span className="comment-date"> { new Date(comment.date).toLocaleDateString() } </span>
+                    : <span className="comment-date"> { new Date(comment.date).toLocaleDateString('en-UK') } </span>
                 }
             </div>
             <div className="comment-text">{comment.content}</div>

@@ -67,7 +67,7 @@ export default async function Article({ params }: Props) {
           { blogData.tags.map((tag: string) => <Link key={tag} href={`/?search=${tag}`}>&#35; {tag}</Link>) }
         </span>
       </div>
-    
+      
       <CommentSection blog={blog} />
     </>
   );
