@@ -6,11 +6,12 @@
   gap: 10px;
 }
 
-.comment-thread > .editor {
+.comment-thread > .editor:last-child {
   margin-left: 30px;
 }
 
-.comment-replies > .editor {
+.comment-replies > .editor,
+.comment-thread > .editor:first-child {
   margin-bottom: 10px;
 }
 
@@ -72,7 +73,7 @@
     margin-bottom: 55px;
   }
 
-  .comment-thread > .editor {
+  .comment-thread > .editor:last-child {
     margin-left: 20px;
   }
 }

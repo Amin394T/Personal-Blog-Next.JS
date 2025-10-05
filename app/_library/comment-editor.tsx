@@ -34,12 +34,12 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   };
 
   let handleClearComment = () => {
-    if (mode == "update" && typeof show === "function")
+    if (mode == "update" && typeof show == "function")
       show(false);
     else {
       editorRef.current.value = "";
       handleStretchArea();
-      typeof id === "number" && setVisible(false);
+      typeof id == "number" && setVisible(false);
     }
   };
 
@@ -128,7 +128,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     <div className="editor" key={id}>
       <textarea placeholder="Write a comment ..." ref={editorRef} onChange={handleStretchArea} />
 
-      <div className="editor-authentication" style={{ visibility: mode == "update" ? "hidden" : "visible" }}>
+      <div className="editor-authentication" style={ mode == "update" ? { height: 0, visibility: "hidden" } : {} }>
         <input ref={usernameRef} type="text" placeholder="Username" />
         <input ref={passwordRef} type="password" placeholder="Password" />
       </div>

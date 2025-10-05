@@ -41,14 +41,15 @@ function CommentCard({ comment }: { comment: Comment }) {
 
     return (
         <div className="comment-card">
-            <div className="comment-user">
+            <div className="comment-user" title={ new Date(comment.date).toLocaleString() + ` (${comment.status})` }>
                 💬 &nbsp; {comment.user}
                 {
-                    comment.user == username &&
-                    <span>
+                    comment.user == username
+                    ? <span>
                         <span className="comment-modify" onClick={() => setEditing(true)} title="Modify"> 📋 </span>
                         <span className="comment-delete" onClick={() => handleDelete(comment.id)} title="Delete"> 🗑️ </span>
-                    </span>
+                      </span>
+                    : <span className="comment-date"> { new Date(comment.date).toLocaleDateString() } </span>
                 }
             </div>
             <div className="comment-text">{comment.content}</div>

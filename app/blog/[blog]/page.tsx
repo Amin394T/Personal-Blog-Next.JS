@@ -6,27 +6,17 @@ import Link from 'next/link';
 import Markdown from 'react-markdown';
 import CommentSection from '@/app/_library/comment-section';
 import blogsList from '@/private/markdown/_files_list.json';
+import type { Article } from '../../_library/types';
 import '@/private/styles/Article.css';
 
 type Props = {
   params: Promise<{ blog: string }>;
 }
 
-type BlogPost = {
-  path: string;
-  image: string;
-  title: string;
-  author: string;
-  date: string;
-  description: string;
-  tags: string[];
-  hidden?: boolean;
-};
-
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { blog } = await params;
-  const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
+  const blogData: Article | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData) return {};
   return {
@@ -50,7 +40,7 @@ export async function generateStaticParams() {
 
 export default async function Article({ params }: Props) {
   const { blog } = await params;
-  const blogData: BlogPost | undefined = blogsList.find((post) => post.path === blog);
+  const blogData: Article | undefined = blogsList.find((post) => post.path === blog);
 
   if (!blogData)
     return notFound();
