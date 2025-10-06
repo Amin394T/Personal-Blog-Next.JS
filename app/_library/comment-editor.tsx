@@ -65,7 +65,11 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       alert(response.message);
   }
 
-  let handleSubmit = async () => {
+  let handleSubmit = async (event: any) => {
+    setTimeout(() => {router.refresh()}, 1000);
+    console.log(event);
+    return;
+    
     if (processing) return;
     setProcessing(true);
     setTimeout(() => {}, 3000);
@@ -126,16 +130,18 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
 
   return (
     <div className="editor" key={id}>
-      <textarea placeholder="Write a comment ..." ref={editorRef} onChange={handleStretchArea} />
+      <textarea name="content" placeholder="Write a comment ..." ref={editorRef} onChange={handleStretchArea} />
 
       <div className="editor-authentication" style={ mode == "update" ? { height: 0, visibility: "hidden" } : {} }>
-        <input ref={usernameRef} type="text" placeholder="Username" />
-        <input ref={passwordRef} type="password" placeholder="Password" />
+        <input name="username" ref={usernameRef} type="text" placeholder="Username" />
+        <input name="password" ref={passwordRef} type="password" placeholder="Password" />
       </div>
+
+      <input type="hidden" name="parent" value={id} />
 
       <div className="editor-controls">
         <button onClick={handleClearComment}>Cancel</button>
-        <button onClick={handleSubmit} disabled={processing}>Submit</button>
+        <button type="submit" onClick={(event) => handleSubmit(event)} disabled={processing}>Submit</button>
       </div>
     </div>
   );

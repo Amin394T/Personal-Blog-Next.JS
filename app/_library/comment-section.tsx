@@ -1,19 +1,21 @@
 import { Suspense } from "react";
 import CommentEditor from "./comment-editor";
 import CommentCard from "./comment-card";
-import { getComments } from "@/database/actions";
+import { createComment, fetchComments } from "@/database/actions";
 import type { Comment } from "./types";
 import "@/private/styles/Comments.css";
 
 
 export default async function CommentSection({ blog }: { blog: string }) {
-  const comments: any = await getComments(blog);
+  const comments: any = await fetchComments(blog);
   if (comments.code == 40)
     throw new Error("Failed to fetch comments.");
   
   return (
     <div className="comment-section">
-      <CommentEditor id={blog} mode="create" show={true} />
+      <form action={createComment}>
+        <CommentEditor id={blog} mode="create" show={true} />
+      </form>
       {
         comments.map((comment: Comment) =>
           <div className="comment-thread" key={comment.id}>
@@ -29,7 +31,8 @@ export default async function CommentSection({ blog }: { blog: string }) {
               </div>
 
             </Suspense>
-            <CommentEditor id={comment.id} mode="create" show={false} />
+            
+            <CommentEditor id={comment.id} mode="create" show={false} /> 
           </div>
         )
       }
