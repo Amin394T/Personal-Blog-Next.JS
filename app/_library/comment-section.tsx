@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import CommentEditor from "./comment-editor";
 import CommentCard from "./comment-card";
-import { createComment, fetchComments } from "@/database/actions";
+import { fetchComments } from "@/database/actions";
 import type { Comment } from "./types";
 import "@/private/styles/Comments.css";
 
@@ -13,9 +13,7 @@ export default async function CommentSection({ blog }: { blog: string }) {
   
   return (
     <div className="comment-section">
-      <form action={createComment}>
-        <CommentEditor id={blog} mode="create" show={true} />
-      </form>
+      <CommentEditor id={blog} mode="create" show={true} />
       {
         comments.map((comment: Comment) =>
           <div className="comment-thread" key={comment.id}>
