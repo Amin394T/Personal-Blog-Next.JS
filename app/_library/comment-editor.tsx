@@ -94,7 +94,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     }
 
     else if (mode == "update") {
-      const action = await updateComment.bind(null, id.toString(), formData)();
+      const action = await updateComment(id.toString(), formData);
 
       if (action.code == 59) {
         router.refresh();

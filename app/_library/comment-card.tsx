@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Comment } from "./types";
 import CommentEditor from "./comment-editor";
+import { deleteComment } from "@/database/actions";
 
 
 function CommentCard({ comment }: { comment: Comment }) {
     const router = useRouter();
-    const [username, setUsername] = useState<string | null>(null);
-    const [password, setPassword] = useState<string | null>(null);
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [editing, setEditing] = useState(false);
 
     useEffect(() => { 
-        setUsername(localStorage.getItem('username'));
-        setPassword(localStorage.getItem('password'));
+        setUsername(localStorage.getItem('username') || '');
+        setPassword(localStorage.getItem('password') || '');
     }, [comment]);
 
 
@@ -21,19 +22,14 @@ function CommentCard({ comment }: { comment: Comment }) {
         const confirmDelete = window.confirm('Delete this comment?');
         if (!confirmDelete) return;
 
-        const request = await fetch(`${window.location.origin}/api/comments`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, username, password })
-        });
-        const response = await request.json();
+        const action = await deleteComment(id.toString(), username, password);
 
-        if (request.ok)
+        if (action.code == 69)
             router.refresh();
-        else if (response.code == 60)
+        else if (action.code == 60)
             alert("Technical Error!");
         else
-            alert(response.message);
+            alert(action.message);
     };
 
     

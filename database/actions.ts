@@ -99,3 +99,39 @@ export const updateComment = async (id: string, formData: FormData) => {
   }
 };
 
+
+export const deleteComment = async (id: string, username: string, password: string) => {
+  const authorization = await authorizeUser(username, password);
+  if (authorization.code != 0)
+    return { code: 60 + authorization.code, message: authorization.message };
+
+  try {
+    const message: any = await Message.findByPk(id);
+
+    if (!message)
+      return { code: 64, message: "Comment Not Found!" };
+    if (message.user != username)
+      return { code: 65, message: "Permission Denied!" };
+
+    const timeLimit = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    if (new Date(message.date) < timeLimit)
+      return { code: 66, message: "Time Limit Exceeded!" };
+
+    message.status = "removed"
+    message.date = new Date();
+    await message.save();
+
+    await Message.update(
+      { status: "orphan" },
+      { where: { 
+          parent: id,
+          status: { [Op.in]: ["normal", "edited"] }
+      }}
+    );
+
+    return { code: 69, ...message.dataValues };
+  }
+  catch (error: any) {
+    return { code: 60, message: error.message };
+  }
+};

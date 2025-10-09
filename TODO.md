@@ -2,3 +2,4 @@
 - fix scrolling to commnet after submit
 - wrap comment section in an error boundary
 - use server actions in routes
+- use optimistic updates
