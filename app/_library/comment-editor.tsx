@@ -1,8 +1,9 @@
 'use client';
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import "@/private/styles/Editor.css";
-import { createComment } from "@/database/actions";
+import { createComment, updateComment } from "@/database/actions";
+import { useFormStatus } from "react-dom";
 
 type Props = {
   id: number | string;
@@ -18,8 +19,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   const passwordRef: any = useRef(null);
   const [visible, setVisible] = useState(show ? true : false);
   const router = useRouter();
-
-  const [state, formAction, pending] = useActionState(createComment, { code: 0, message: "Action Initialized ..." });
+  const { pending } = useFormStatus();
   
   useEffect(() => {
     if (visible) {
@@ -70,7 +70,6 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
   let handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    const action = await createComment(formData);
 
     const username = usernameRef.current.value.trim();
     const password = passwordRef.current.value;
@@ -78,6 +77,8 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     localStorage.setItem("password", password);
 
     if (mode == "create") {
+      const action = await createComment(formData);
+      
       if (action.code == 39) {
         router.refresh();
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -93,6 +94,8 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     }
 
     else if (mode == "update") {
+      const action = await updateComment.bind(null, id.toString(), formData)();
+
       if (action.code == 59) {
         router.refresh();
         handleClearComment();

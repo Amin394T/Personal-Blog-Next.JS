@@ -65,3 +65,37 @@ export const createComment = async (formData: FormData) => {
     return { code: 30, message: error.message };
   }
 };
+
+
+export const updateComment = async (id: string, formData: FormData) => {
+  const username = formData.get("username")?.toString() || "";
+  const password = formData.get("password")?.toString() || "";
+  const content = formData.get("content")?.toString() || "";
+
+  if (!content)
+    return { code: 56, message: "Comment is Empty!" };
+
+  const authorization = await authorizeUser(username, password);
+  if (authorization.code != 0)
+    return { code: 50 + authorization.code, message: authorization.message };
+
+  try {
+    const message: any = await Message.findByPk(id);
+
+    if (!message)
+      return { code: 54, message: "Comment Not Found!" };
+    if (message.user != username)
+      return { code: 55, message: "Permission Denied!" };
+
+    message.content = content;
+    message.status = "edited";
+    message.date = new Date();
+    await message.save();
+
+    return { code: 59, ...message.dataValues };
+  }
+  catch (error: any) {
+    return { code: 50, message: error.message };
+  }
+};
+
