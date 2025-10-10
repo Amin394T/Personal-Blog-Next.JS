@@ -70,8 +70,7 @@ export const fetchComments = async (blog: string) => {
 };
 
 
-export const createComment = async (formData: FormData) => {
-  const parent = formData.get("parent")?.toString() || "";
+export const createComment = async (parent: string | number, formData: FormData) => {
   const username = formData.get("username")?.toString() || "";
   const password = formData.get("password")?.toString() || "";
   const content = formData.get("content")?.toString() || "";

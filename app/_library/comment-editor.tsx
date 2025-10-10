@@ -45,7 +45,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     }
   };
 
-  let handleRegistration = async (username: string, password: string, event: React.FormEvent) => {
+  let handleRegistration = async (username: string, password: string) => {
     const confirmCreateUser = window.confirm("Create a new Account?");
     if (!confirmCreateUser) {
       alert("Account Creation Required!");
@@ -55,7 +55,7 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     const action = await registerUser(username, password);
 
     if (action.code == 19)
-      handleSubmit(event);
+      return;
     else if (action.code == 10)
       alert("Technical Error!");
     else
@@ -72,16 +72,17 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
     localStorage.setItem("password", password);
 
     if (mode == "create") {
-      const action = await createComment(formData);
+      let action = await createComment(id, formData);
       
+      if (action.code == 31 && username) {
+        handleRegistration(username, password);
+        action = await createComment(id, formData);
+      }
       if (action.code == 39) {
         router.refresh();
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         handleClearComment();
       }
-      else if (action.code == 31 && username)
-        // TODO: fix event being empty
-        handleRegistration(username, password, event);
       else if (action.code == 30)
         alert("Technical Error!");
       else
@@ -114,8 +115,6 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
         <input name="username" ref={usernameRef} type="text" placeholder="Username" />
         <input name="password" ref={passwordRef} type="password" placeholder="Password" />
       </div>
-
-      <input type="hidden" name="parent" value={id} />
 
       <div className="editor-controls">
         <button onClick={handleClearComment}>Cancel</button>
