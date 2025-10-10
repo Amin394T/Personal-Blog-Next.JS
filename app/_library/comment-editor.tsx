@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import "@/private/styles/Editor.css";
-import { createComment, updateComment } from "@/database/actions";
 import { useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
+import { createComment, updateComment, registerUser } from "@/database/actions";
+import "@/private/styles/Editor.css";
 
 type Props = {
   id: number | string;
@@ -52,19 +52,14 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       return;
     }
 
-    const request = await fetch(`${window.location.origin}/api/users/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
-    });
-    const response = await request.json();
+    const action = await registerUser(username, password);
 
-    if (response.code == 19)
+    if (action.code == 19)
       handleSubmit(event);
-    else if (response.code == 10)
+    else if (action.code == 10)
       alert("Technical Error!");
     else
-      alert(response.message);
+      alert(action.message);
   }
 
   let handleSubmit = async (event: React.FormEvent) => {

@@ -4,8 +4,11 @@ import Message from "@/database/messageModel";
 import User from "./userModel";
 
 
-async function authorizeUser(username: string, password: string) {
+// User management functions
+
+const authorizeUser = async (username: string, password: string) => {
   const user: any = await User.findByPk(username);
+
   if (!user)
     return { code: 1, message: "Invalid Username!" };
   if (user.password != password)
@@ -16,6 +19,29 @@ async function authorizeUser(username: string, password: string) {
   return { code: 0, message: "User Authorized." };
 }
 
+
+export const registerUser = async (username: string, password: string) => {
+  username = username.trim();
+  const usernameRegex = /^[a-zA-Z0-9\u0600-\u06FF ]+$/;
+
+  if (!usernameRegex.test(username))
+    return { code: 11, message: "Username must be Alphanumeric!" };
+  if (username.length < 3 || username.length > 25)
+    return { code: 12, message: "Invalid Username Length!" };
+  if (password.length < 8 || password.length > 100)
+    return { code: 13, message: "Invalid Password Length!" };
+
+  try {
+      await User.create({ username, password });
+      return { code: 19, message: "User Registered." };
+  }
+  catch (error: any) {
+    return { code: 10, message: error.message };
+  }
+};
+
+
+// Comment management actions
 
 export const fetchComments = async (blog: string) => {
   try {
