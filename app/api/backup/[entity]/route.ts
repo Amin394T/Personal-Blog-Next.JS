@@ -53,7 +53,7 @@ export const POST = async (req: NextRequest, { params }: Parameters) => {
     for (const item of data)
       await Model.upsert(item);
 
-    return NextResponse.json({ code: 99, message: "Import Succeeded." }, { status: 200 });
+    return NextResponse.json({ code: 99, message: "Loading Successful." }, { status: 200 });
   }
   catch (error: any) {
     return NextResponse.json({ code: 90, message: error.message }, { status: 400 });

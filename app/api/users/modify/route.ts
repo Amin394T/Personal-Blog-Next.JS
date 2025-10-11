@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/database/userModel";
 
-export const PUT = async (req: NextRequest) => {
-  let { id, username, password, toggle, token } = await req.json();
+export const PATCH = async (req: NextRequest) => {
+  let { id, username, password, status, token } = await req.json();
   
   if (token != process.env.ADMIN_TOKEN)
         return NextResponse.json({ code: 71, message: "Access Forbidden!" }, { status: 401 });
@@ -14,12 +14,14 @@ export const PUT = async (req: NextRequest) => {
 
     user.username = username || user.username;
     user.password = password || user.password;
-    user.status = toggle == "Y" ? "blocked" : toggle == "N" ? "active" : user.status;
+    user.status = status || user.status;
     await user.save();
 
     return NextResponse.json(user, { status: 200 });
   }
   catch (error: any) {
-    return NextResponse.json({ code: 70, message: error.message }, { status: 400 });
+    return NextResponse.json({ code: 70, message: error.message }, { status: 500 });
   }
 };
+
+// modify all comments with new name

@@ -6,7 +6,7 @@ import User from "./userModel";
 
 // User management functions
 
-const authorizeUser = async (username: string, password: string) => {
+export const authorizeUser = async (username: string, password: string) => {
   const user: any = await User.findByPk(username);
 
   if (!user)
@@ -111,6 +111,10 @@ export const updateComment = async (id: string, formData: FormData) => {
       return { code: 54, message: "Comment Not Found!" };
     if (message.user != username)
       return { code: 55, message: "Permission Denied!" };
+
+      const timeLimit = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      if (new Date(message.date) < timeLimit)
+        return { code: 57, message: "Time Limit Exceeded!" };
 
     message.content = content;
     message.status = "edited";
