@@ -9,7 +9,7 @@ import "@/private/styles/Comments.css";
 export default async function CommentSection({ blog }: { blog: string }) {
   const comments: any = await fetchComments(blog);
   if (comments.code == 40)
-    throw new Error("Failed to fetch comments.");
+    return <div className="error comment-section"> <div>&#x2716;</div> Oops! Loading comments failed. </div>;
   
   return (
     <div className="comment-section">

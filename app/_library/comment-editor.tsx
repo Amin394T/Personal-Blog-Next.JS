@@ -80,8 +80,11 @@ export default function CommentEditor({ id, content, show, mode }: Props) {
       }
       if (action.code == 39) {
         router.refresh();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         handleClearComment();
+        
+        typeof id == "string" && setTimeout(() => {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 500);
       }
       else if (action.code == 30)
         alert("Technical Error!");
