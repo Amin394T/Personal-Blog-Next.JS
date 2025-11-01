@@ -112,7 +112,7 @@ export const updateComment = async (id: string, formData: FormData) => {
     if (message.user != username)
       return { code: 55, message: "Permission Denied!" };
 
-      const timeLimit = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      const timeLimit = new Date(Date.now() - Number(process.env.EDIT_HOURS_LIMIT) * 60 * 60 * 1000);
       if (new Date(message.date) < timeLimit)
         return { code: 57, message: "Time Limit Exceeded!" };
 
@@ -142,7 +142,7 @@ export const deleteComment = async (id: string, username: string, password: stri
     if (message.user != username)
       return { code: 65, message: "Permission Denied!" };
 
-    const timeLimit = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const timeLimit = new Date(Date.now() - Number(process.env.EDIT_HOURS_LIMIT) * 60 * 60 * 1000);
     if (new Date(message.date) < timeLimit)
       return { code: 66, message: "Time Limit Exceeded!" };
 
